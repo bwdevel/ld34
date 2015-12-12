@@ -28,7 +28,6 @@ function playerInit()
   delBullets = {}
 end
 
-
 function playerUpdate(dt)
   if player.rotate then 
     player.rrate = player.rrate + (player.thrust * dt) 
@@ -43,18 +42,17 @@ function playerUpdate(dt)
 
 end
 
-
 function playerDraw()
   love.graphics.draw(player.sprite, player.x, player.y, player.r, 1, 1, player.w / 2, player.h / 2) 
   bulletsDraw()
   love.graphics.print("bullets: " .. #bullets, 10, 10)
   love.graphics.print("rrate:   " .. player.rrate, 10, 20)
+  love.graphics.print("rot:     " .. player.r, 10, 30)
+
   if player.shield then love.graphics.draw(player.ssprite, player.x, player.y, 0, 1, 1, player.sw / 2, player.sh / 2) end
 end
 
-
 function playerFire()
-  print("POW")
   player.fire = false
   bulletCreate()
 end
@@ -73,14 +71,14 @@ end
 
 function bulletsUpdate(dt)
   for i, v in ipairs(bullets) do
-    v["x"] = v["x"] + (v["dx"] * dt)
-    v["y"] = v["y"] + (v["dy"] * dt)
+    v.x = v.x + (v.dx * dt)
+    v.y = v.y + (v.dy * dt)
   end
 
   local delBullets = {}
   for i, v in ipairs(bullets) do
-    if v["x"] < 0 or v["x"] > love.window.getWidth() or
-      v["y"] < 0 or v["y"] > love.window.getHeight() then
+    if v.x < 0 or v.x > love.window.getWidth() or
+      v.y < 0 or v.y > love.window.getHeight() then
       table.insert(delBullets, i)
     end
   end
