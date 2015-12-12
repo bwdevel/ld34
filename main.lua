@@ -1,3 +1,4 @@
+require 'TESound'
 require 'player'
 
 function love.load()
@@ -7,6 +8,7 @@ end
 
 
 function love.update(dt)
+  TESound.cleanup()
   playerUpdate(dt)
 
 end
