@@ -3,14 +3,21 @@ require 'player'
 require 'rocks'
 
 function love.load()
+  debug = true
+  love.physics.setMeter(32)
+  --world = love.physics.newWorld(0, 9.81*32, true) 
+  world = love.physics.newWorld(0, 0, true) 
+  objects = {}
   playerInit()
   rocksInit()
-  debug = true
+
 end
 
 
 function love.update(dt)
   TEsound.cleanup()
+  world:update(dt)
+
   playerUpdate(dt)
   rocksUpdate(dt)
 end

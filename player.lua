@@ -23,9 +23,16 @@ function playerInit()
   player.sw = player.ssprite:getWidth()
   player.sh = player.ssprite:getHeight()
 
+  player.body = love.physics.newBody(world, player.x, player.y, "dynamic")
+  player.shape = love.physics.newCircleShape(player.w/2) 
+  player.fixture = love.physics.newFixture(player.body, player.shape, 1)
+  player.fixture:setRestitution(0.9)
+
   bullets = {}
-  bulletSpeed = 250
+  bulletSpeed = 500
   delBullets = {}
+
+
 end
 
 function playerUpdate(dt)
@@ -60,12 +67,24 @@ end
 function bulletCreate()
   local bulletDx = bulletSpeed * math.cos(player.r)
   local bulletDy = bulletSpeed * math.sin(player.r)
-  table.insert(bullets, {x = player.x, y = player.y, dx = bulletDx, dy = bulletDy})
+
+  bullet = {}
+  bullet.x = player.x
+  bullet.y = player.y
+  bullet.dx = bulletDx
+  bullet.dy = bulletDy
+  bullet.body = love.physics.newBody(world, bullet.x, bullet.y, "dynamic")
+  bullet.shape = love.physics.newCircleShape(3)
+  bullet.fixture = love.physics.newFixture(bullet.body, bullet.shape, 5)
+  bullet.body:applyForce(bullet.dx, bullet.dy)
+  table.insert(bullets, bullet) 
 end
 
 function bulletsDraw()
   for i, v in ipairs(bullets) do
-    love.graphics.circle("fill", v["x"], v["y"], 3)
+--    love.graphics.circle("fill", v["x"], v["y"], 3)
+ 
+    love.graphics.circle("fill", v.body:getX(), v.body:getY(), v.shape:getRadius())
   end
 end
 
